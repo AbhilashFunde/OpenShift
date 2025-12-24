@@ -1,31 +1,39 @@
 /* ===============================
-   GLOBAL LAYOUT TUNING
+   SIDEBAR (fix grey gap issue)
    =============================== */
 
-/* Reduce excessive left/right space */
-.page-content {
-  max-width: 1180px;
-  padding-left: 1.8rem;
-  padding-right: 1.8rem;
+.side-bar {
+  background-color: #f9fafb;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
-/* Reduce header height (top space fix) */
+/* ===============================
+   MAIN CONTENT LAYOUT
+   =============================== */
+
+.page-content {
+  max-width: 1200px;      /* wider, premium look */
+  padding-left: 1.25rem; /* close to sidebar */
+  padding-right: 1.75rem;
+}
+
+/* Reduce top empty space */
 .site-header {
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
 }
 
-/* Pull content slightly up */
 .main {
-  padding-top: 0.8rem;
+  padding-top: 0.75rem;
 }
 
 /* ===============================
-   TYPOGRAPHY (Exam-speed reading)
+   TYPOGRAPHY (exam-speed reading)
    =============================== */
 
 .main-content h1 {
-  font-size: 2rem;
+  font-size: 1.9rem;     /* smaller than default */
   line-height: 1.25;
   margin-bottom: 0.75rem;
 }
@@ -36,13 +44,5 @@
 
 .main-content p,
 .main-content li {
-  line-height: 1.75;
-}
-
-/* ===============================
-   SIDEBAR POLISH
-   =============================== */
-
-.side-bar {
-  background-color: #f9fafb;
+  line-height: 1.7;
 }
