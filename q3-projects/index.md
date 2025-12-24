@@ -42,13 +42,17 @@ Verify:
 ```bash
 oc get projects
 ```
-✅ 2. Grant view access to natasha (apollo & test)
+---
+
+### ✅ 2. Grant view access to natasha (apollo & test)
 ```bash
 oc adm policy -h|more
 oc adm policy add-role-to-user view natasha -n apollo
 oc adm policy add-role-to-user view natasha -n test
 ```
-✅ 3. Grant admin access to armstrong (apollo)
+---
+
+### ✅ 3. Grant admin access to armstrong (apollo)
 ```bash
 oc adm policy add-role-to-user admin armstrong -n apollo
 ```
@@ -56,13 +60,17 @@ Verification
 Check role bindings:
 
 ```bash
-oc get rolebinding -n apollo | grep -E 'natasha|armstrong'
-oc get rolebinding -n test | grep natasha
+oc get rolebinding -n test -o wide | grep -i natasha
+oc get rolebinding -n apollo -o wide | grep -i natasha
+oc get rolebinding -n apollo -o wide | grep -i armstrong
 ```
-(Optional) Test natasha permissions
+<img width="624" height="128" alt="image" src="https://github.com/user-attachments/assets/13e4b013-8e01-443f-bdda-f6a95eb03f6c" />
+
+(If You Want) Test natasha permissions
 ```bash
 oc login -u natasha -p sestiver
 oc project apollo
+oc new-app httpd
 oc get pods
 ```
 Attempt to delete a pod:
@@ -71,26 +79,29 @@ oc delete pod <pod-name>
 ```
 Expected result:
 
-```bash
 oc get pods → allowed
 oc delete pod → Forbidden
-```
 
-(Optional) Test armstrong admin permissions
-bash
-Copy code
+(If You Want) Test armstrong admin permissions
+
+```bash
 oc login -u armstrong -p gluengue
 oc project apollo
 oc create deployment test --image=nginx
+```
 Expected result:
 
 Deployment creation succeeds
 
-Result
+### Result
+
 Projects and permissions configured successfully as per requirements.
 
-🟨 Technical Explanation
+---
+### 🟨 Technical Explanation
+
 1. Projects and Namespaces
+
 In OpenShift:
 
 A project is implemented as a Kubernetes namespace
@@ -99,31 +110,31 @@ Creating a project automatically creates a namespace
 
 Example:
 
-bash
-Copy code
 oc new-project apollo
-Creates namespace apollo.
+
+
+This command creates a namespace named apollo.
 
 2. RBAC Scope
-Roles are scoped to namespaces unless they are cluster roles.
 
-Common roles:
+Roles are namespace-scoped unless they are cluster roles
 
-view → read-only access
+Cluster roles apply across the entire cluster
 
-edit → modify resources (not RBAC)
-
-admin → full control within a project
-
-cluster-admin → full cluster access
-
+Common Roles
+Role	Description
+view	Read-only access
+edit	Modify resources (does not manage RBAC)
+admin	Full control within a project
+cluster-admin	Full cluster-wide access
 3. RoleBinding
-The command:
 
-bash
-Copy code
+Command:
+
 oc adm policy add-role-to-user view natasha -n apollo
-Creates a RoleBinding that links:
+
+
+This command creates a RoleBinding that links:
 
 Role: view
 
@@ -131,19 +142,16 @@ User: natasha
 
 Namespace: apollo
 
-Role bindings apply only to the specified project.
+RoleBindings apply only to the specified project.
 
 4. Project Isolation
-Each project is isolated:
+
+Each OpenShift project is isolated:
 
 Separate RBAC rules
 
 Separate resources
 
-Permissions in one project do not affect others
+Permissions in one project do not affect other projects
 
 This behavior is expected and enforced by OpenShift.
-
-yaml
-Copy code
-
