@@ -3,23 +3,12 @@ layout: default
 title: Home
 nav_order: 1
 ---
-title: Home
----
-
-<nav>
-<a href="/">Home</a> |
-<a href="/OpenShift/exam-topics">Exam Topics</a> |
-<a href="/OpenShift/lab-scenarios">Lab Scenarios</a> |
-<a href="/OpenShift/cheatsheet">Cheat Sheet</a> |
-<a href="/OpenShift/mistakes">Mistakes</a>
-</nav>
-
----
-
----
 
 ## 📘 Getting Started
 
+Welcome to **DO280 OpenShift Exam Prep** — a hands-on, lab-focused guide to help you crack the Red Hat DO280 exam with confidence.
+
+### Free Content
 - 👉 [Exam Overview & Rules](./exam-overview/)
 - 👉 [Q1 – Configure HTPasswd Identity Provider](./q1-htpasswd/)
 - 👉 [Q2 – Manage Cluster Permissions](./q2-rbac/)
@@ -32,13 +21,13 @@ title: Home
 ## 👤 About Me
 
 Hi, I’m **Abhilash** 👋  
-I’m an OpenShift engineer preparing and sharing **hands-on DO280 exam notes** based on real lab practice.
+I’m an OpenShift engineer sharing **real exam-oriented DO280 notes** based on hands-on lab practice.
 
 If you want to:
-- discuss DO280
-- ask doubts
+- discuss DO280 concepts
+- ask exam doubts
 - collaborate
-- or get future paid notes
+- or get future **advanced / paid notes**
 
 you can connect with me here 👇
 
