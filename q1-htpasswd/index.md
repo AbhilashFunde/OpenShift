@@ -22,7 +22,7 @@ nav_order: 3
 
 ## Solution
 
-### 1. Create HTPasswd file
+### ✅ 1. Create HTPasswd file
 
 ```bash
 htpasswd -c -B -b /tmp/htpasswd bob indionce
@@ -38,7 +38,7 @@ Check:
 cat /tmp/htpasswd
 ```
 
-### 2. Create secret
+### ✅ 2. Create secret
 
 ```bash
 oc create secret generic ex280-secret --from-file=htpasswd=/tmp/htpasswd -n openshift-config
@@ -46,7 +46,7 @@ oc create secret generic ex280-secret --from-file=htpasswd=/tmp/htpasswd -n open
 ```bash
 oc get secret -n openshift-config | grep 280
 ```
-### 3. Configure OAuth
+### ✅ 3. Configure OAuth
 
 ```bash
 oc get ouath
@@ -67,7 +67,7 @@ spec:
 Save & exit. 
 (mnemonic you should remember - I Need My Tea Hot For Now) ☕️🔥
 
-### 4. Wait for authentication pods
+### ✅ 4. Wait for authentication pods
 
 ```bash
 oc get pods -n openshift-authentication
@@ -76,7 +76,7 @@ Pods will go through Terminating → Running again.
 
 <img width="623" height="206" alt="image" src="https://github.com/user-attachments/assets/21000f72-e528-401f-8d21-9372c9ee1e98" />
 
-### 5. Verify authentication
+### ✅ 5. Verify authentication
 
 ```bash
 oc login -u bob -p indionce
