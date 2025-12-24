@@ -11,3 +11,6 @@ search_enabled: true
 
 color_scheme: light
 heading_anchors: true
+
+sass:
+  sass_dir: _sass
