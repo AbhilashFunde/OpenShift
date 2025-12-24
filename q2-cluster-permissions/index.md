@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Q2 – Cluster RBAC
+title: Q2 – Manage Cluster Permissions
+nav_title: Q2 - Cluster RBAC
 nav_order: 4
 ---
 ### Question 2. Manage Cluster Permissions
