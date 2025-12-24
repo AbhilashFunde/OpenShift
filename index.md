@@ -1,10 +1,14 @@
-# OpenShift / DO280 Exam Preparation
+---
+title: Home
+---
 
 Welcome 👋  
-This section contains my **DO280 (OpenShift) exam preparation notes**.
+This site contains my **DO280 (OpenShift) exam preparation notes**.
 
-## Contents
-- Exam topics
-- Lab scenarios
-- Command cheat sheet
-- Common mistakes
+---
+
+## 📘 Contents
+- [Exam topics](exam-topics.md)
+- [Lab scenarios](lab-scenarios.md)
+- [Command cheat sheet](cheatsheet.md)
+- [Common mistakes](mistakes.md)
