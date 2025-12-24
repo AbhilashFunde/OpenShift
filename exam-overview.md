@@ -3,8 +3,6 @@ layout: default
 title: Exam Overview & Rules
 nav_order: 2
 ---
-title: DO280 / EX280 Exam Overview
----
 
 # 🎓 DO280 / EX280 – Introduction & Exam Overview
 
