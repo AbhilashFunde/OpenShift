@@ -1,26 +1,21 @@
-/* Reduce excessive horizontal whitespace */
+/* Control reading width (remove huge right gap) */
 .main-content {
   max-width: 1100px;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
 }
 
-/* Sidebar width control */
+/* Sidebar tweaks (do NOT touch layout math) */
 .side-bar {
   width: 220px;
 }
 
-/* Align main content with sidebar */
-.main {
-  margin-left: 220px;
-}
-
-/* Improve reading speed */
+/* Better reading flow for exam speed */
 .main-content p {
   line-height: 1.7;
 }
 
-/* Reduce huge title size */
+/* Reduce oversized page titles */
 .main-content h1 {
   font-size: 2rem;
   line-height: 1.3;
