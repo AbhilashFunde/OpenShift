@@ -32,13 +32,25 @@ htpasswd -B -b /tmp/htpasswd armstrong gluengue
 htpasswd -B -b /tmp/htpasswd natasha sestiver
 htpasswd -B -b /tmp/htpasswd alice thankyou
 ```
+Check:
+
+```bash
+cat /tmp/htpasswd
+```
+
 ### 2. Create secret
 
 ```bash
 oc create secret generic ex280-secret --from-file=htpasswd=/tmp/htpasswd -n openshift-config
 ```
+```bash
+oc get secret -n openshift-config | grep 280
+```
 ### 3. Configure OAuth
 
+```bash
+oc get ouath
+```
 ```bash
 oc edit oauth cluster
 ```
@@ -52,17 +64,36 @@ spec:
       fileData:
         name: ex280-secret
 ```
+Save & exit. 
+(mnemonic you should remember - I Need My Tea Hot For Now) ☕️🔥
+
 ### 4. Wait for authentication pods
 
 ```bash
 oc get pods -n openshift-authentication
 ```
-(All pods must be Running.)
+Pods will go through Terminating → Running again.
+<img width="623" height="206" alt="image" src="https://github.com/user-attachments/assets/21000f72-e528-401f-8d21-9372c9ee1e98" />
 
 ### 5. Verify authentication
 
 ```bash
 oc login -u bob -p indionce
+```
+```bash
+oc login -u jobs -p catalog
+```
+```bash
+oc login -u john -p warniak
+```
+```bash
+oc login -u armstrong -p gluengue
+```
+```bash
+oc login -u natasha -p sestiver
+```
+```bash
+oc login -u alice -p thankyou
 ```
 ```bash
 oc get users
