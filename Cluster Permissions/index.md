@@ -10,6 +10,5 @@ nav_order: 3
   src="./Q1-Configure-HTPasswd-Identity-Provider.pdf"
   width="100%"
   height="900px"
-  style="border: none;">
+  style="border:none;">
 </iframe>
-
