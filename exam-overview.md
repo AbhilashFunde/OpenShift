@@ -1,4 +1,8 @@
 ---
+layout: default
+title: Exam Overview & Rules
+permalink: /exam-overview/
+---
 title: DO280 / EX280 Exam Overview
 ---
 
