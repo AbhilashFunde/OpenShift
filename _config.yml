@@ -1,6 +1,13 @@
-theme: jekyll-theme-cayman
-nav:
-  - title: Home
-    url: /
-  - title: Exam Overview
-    url: /exam-overview/
+title: DO280 OpenShift Exam Prep
+description: Hands-on DO280 OpenShift exam preparation notes
+theme: just-the-docs
+
+url: https://abhilashfunde.github.io
+baseurl: /OpenShift
+
+nav_enabled: true
+search_enabled: true
+
+color_scheme: light
+
+heading_anchors: true
