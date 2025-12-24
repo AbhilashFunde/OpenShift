@@ -1,14 +1,9 @@
-/* Reduce sidebar width */
+/* Slightly softer sidebar */
 .side-bar {
-  width: 220px;
+  background-color: #f9fafb;
 }
 
-/* Let main content auto-adjust (do NOT force margin-left) */
-.main {
-  margin-left: auto;
-}
-
-/* Increase readable content width */
-.main-content {
-  max-width: 1100px;
+/* Better text spacing for reading */
+.main-content p {
+  line-height: 1.7;
 }
