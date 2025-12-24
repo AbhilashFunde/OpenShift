@@ -8,9 +8,9 @@ baseurl: /OpenShift
 
 nav_enabled: true
 search_enabled: true
+heading_anchors: true
 
 color_scheme: light
-heading_anchors: true
 
 sass:
   sass_dir: _sass
