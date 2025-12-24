@@ -49,7 +49,7 @@ oc get secret -n openshift-config | grep 280
 ### ✅ 3. Edit the OAuth cluster configuration
 
 ```bash
-oc get ouath
+oc get oauth
 ```
 ```bash
 oc edit oauth cluster
@@ -102,11 +102,11 @@ Login back by using cluster/admin user (ex: kubeadmin in the exam and admin in l
 ```bash
 oc get users
 ```
-### Result
+### ✅ Result
 
 HTPasswd identity provider configured successfully and users can authenticate.
 
-🟨 TECHNICAL EXPLANATION
+### 🟨 TECHNICAL EXPLANATION
 
 ### 1. HTPasswd Creation
 
