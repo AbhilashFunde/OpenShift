@@ -11,7 +11,7 @@ Welcome to **DO280 OpenShift Exam Prep** — a hands-on, lab-focused guide to cr
 ### Free Content
 - 👉 [Exam Overview & Rules](./exam-overview/)
 - 👉 [Q1 – Configure HTPasswd Identity Provider](./q1-htpasswd/)
-- 👉 [Q2 – Manage Cluster Permissions](./q2-rbac/)
+- 👉 [Q2 – Manage Cluster Permissions](./q2-cluster-permissions/)
 - 👉 [Q3 – Manage Projects & Permissions](./q3-projects/)
 - 👉 [Q4 – Managing Groups](./q4-groups/)
 - 👉 [Q5 – ResourceQuota & LimitRange](./q5-quotas/)
