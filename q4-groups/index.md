@@ -1,3 +1,8 @@
+---
+layout: default
+title: Q4 – Managing Groups
+nav_order: 5
+---
 ## Question 4. Managing Groups
 
 Configure groups and permissions as follows:
