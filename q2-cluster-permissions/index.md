@@ -76,9 +76,10 @@ ________________________________________
 ### ✅ 6. Give alice user cluster-reader permissions
 ```bash
 oc adm policy add-cluster-role-to-user cluster-reader alice
+oc login -u john -p warniak
+oc new-project alicetest
 ```
-
-________________________________________
+If nodes are visible and user alice is unable to create a new project, then cluster-reader access is confirmed.✔ ________________________________________
 
 ### ✅ 7. Remove kubeadmin user
 Delete kubeadmin credentials:
