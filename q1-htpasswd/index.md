@@ -4,17 +4,19 @@ title: Q1 – Configure HTPasswd Identity Provider
 nav_order: 3
 ---
 
-Question 1. Manage Identity Providers:
-•	Configure the Oauth to use HTPasswd as the identity provider.
-•	Secret name should be ex280-secret and Identity Provider name should be ex280-idp-secret.
-Create Users:
-•	Create user bob with password indionce
-•	Create user jobs with password catalog
-•	Create user john with password warniak
-•	Create user armstrong with password gluengue
-•	Create user natasha with password sestiver
-•	Create user alice with password thankyou
+### Question 1. Manage Identity Providers
 
+- Configure the OAuth to use **HTPasswd** as the identity provider.
+- Secret name should be **ex280-secret** and Identity Provider name should be **ex280-idp-secret**.
+
+### Create Users
+
+- Create user **bob** with password **indionce**
+- Create user **jobs** with password **catalog**
+- Create user **john** with password **warniak**
+- Create user **armstrong** with password **gluengue**
+- Create user **natasha** with password **sestiver**
+- Create user **alice** with password **thankyou**
 
 ---
 
