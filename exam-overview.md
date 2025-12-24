@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Exam Overview
+title: Exam Overview & Rules
 nav_order: 2
 ---
 title: DO280 / EX280 Exam Overview
