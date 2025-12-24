@@ -25,3 +25,19 @@ title: Home
 
 ---
 
+## 👤 About Me
+
+Hi, I’m **Abhilash** 👋  
+I’m an OpenShift engineer preparing and sharing **hands-on DO280 exam notes** based on real lab practice.
+
+If you want to:
+- discuss DO280
+- ask doubts
+- collaborate
+- or get future paid notes
+
+you can connect with me here 👇
+
+📱 **WhatsApp**: https://wa.me/91XXXXXXXXXX  
+📸 **Instagram**: https://instagram.com/YOUR_USERNAME  
+💼 **GitHub**: https://github.com/AbhilashFunde
