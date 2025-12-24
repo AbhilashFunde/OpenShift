@@ -110,44 +110,55 @@ HTPasswd identity provider configured successfully and users can authenticate.
 
 ### 1. HTPasswd Creation
 
-•	-c → create a new file (use only for the first user)
-•	-B → use bcrypt hashing (OpenShift requires bcrypt)
-•	-b → supply password inline
+- `-c` → create a new file (use only for the first user)
+- `-B` → use bcrypt hashing (**OpenShift requires bcrypt**)
+- `-b` → supply password inline
 
 This creates the local user database that OAuth will consume.
 
-________________________________________
+---
 
-### 2. Secret in openshift-config
+### 2. Secret in `openshift-config`
 
-OpenShift authentication pulls htpasswd only from:
-Namespace: openshift-config
-If you put it anywhere else → OAuth will not find it.
-Secret must be named ex280-secret.
-A generic secret is the default secret type in Kubernetes (type: Opaque) used to store any file or key-value data, such as htpasswd files.
-We use it because htpasswd is just a normal file and does not belong to special secret types like TLS or docker-registry. --from-file simply uploads the file into the secret so OAuth can read it.
+OpenShift authentication pulls `htpasswd` **only** from:
 
-________________________________________
+- Namespace: **openshift-config**
+
+If you put it anywhere else → **OAuth will not find it**.
+
+- Secret must be named **ex280-secret**
+
+A **generic secret** is the default Kubernetes secret type (`type: Opaque`) used to store any file or key-value data, such as `htpasswd` files.
+
+We use it because:
+- `htpasswd` is a normal file
+- It does not belong to special secret types like TLS or docker-registry
+
+`--from-file` uploads the file into the secret so OAuth can read it.
+
+---
 
 ### 3. Editing OAuth
 
-The object:
-oauth cluster is the global authentication configuration.
-The identityProviders: block tells OpenShift:
+The object **`oauth cluster`** is the global authentication configuration.
 
-•	Enable HTPasswd Provider
-•	Use secret named ex280-secret
-•	Name this provider ex280-idp-secret
+The `identityProviders` block tells OpenShift:
 
-________________________________________
+- Enable **HTPasswd** provider
+- Use secret named **ex280-secret**
+- Name this provider **ex280-idp-secret**
+
+---
 
 ### 4. Authentication Operator Restart
 
 After modifying OAuth:
 
-•	The authentication operator detects changes
-•	It automatically restarts pods in openshift-authentication & openshift-oauth-apiserver
-•	Once pods return to Running → new IDP is active
+- The authentication operator detects changes
+- It automatically restarts pods in:
+  - `openshift-authentication`
+  - `openshift-oauth-apiserver`
+- Once pods return to **Running** → new IDP is active
 
-This is normal and expected.
+This behavior is **normal and expected**.
 
