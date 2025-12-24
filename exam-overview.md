@@ -244,38 +244,50 @@ It contains:
 
 ## ⭐ SECTION 8 — Logging Into the Cluster
 
-### Step 1 — SSH to Workbench
+This section explains how to access the exam environment and log in to the
+OpenShift cluster safely.
+---
+
+### 🔹 Step 1 — SSH to Workbench
 ```bash
 ssh <username>@workbench.lab.example.com
+```
+📌 This command connects you to the exam workbench system where all tasks
+must be performed.
 
-Step 2 — Find kubeadmin.txt
+🔹 Step 2 — Locate kubeadmin.txt
+```bash
 ls -l
+```
+📄 The kubeadmin.txt file contains:
 
-File contains:
-
-API URL
+Cluster API URL
 
 Username
 
 Password
 
-Step 3 — Login to Cluster
+🔹 Step 3 — Login to the Cluster
+```bash
 oc login -u <user> -p <password> <api-url>
+```
 
-
-Verify:
-
+✅ Verify successful login:
+```bash
 oc whoami
 oc get projects
+```
+⚠️ Important Exam Rules
 
-Important Tips
+❌ Do NOT edit kubeadmin.txt
 
-Login once, solve everything
+🔐 Login and solve the questions
 
-Do NOT edit kubeadmin.txt
+📁 Use home directory only for files
 
-Use home directory only for files
+💾 Everything auto-saves
 
-Stay calm if login fails
+🧘 Stay calm if login fails
 
-✔️ Once you understand this page, start with Q1
+✅ Once you understand this section, proceed to Question 1
+
