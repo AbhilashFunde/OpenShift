@@ -12,13 +12,16 @@ title: Home
 
 ---
 
-## DO280 – OpenShift Exam Preparation
+---
 
-Welcome 👋  
-This site contains my **hands-on DO280 exam preparation notes**.
+## 📘 Getting Started
 
-### What you’ll find
-- Exam topics explained simply
-- Real lab scenarios
-- Command cheat sheets
-- Common exam mistakes
+- 👉 [Exam Overview & Rules](./exam-overview/)
+- 👉 [Q1 – Configure HTPasswd Identity Provider](./q1-htpasswd/)
+- 👉 [Q2 – Manage Cluster Permissions](./q2-rbac/)
+- 👉 [Q3 – Manage Projects & Permissions](./q3-projects/)
+- 👉 [Q4 – Managing Groups](./q4-groups/)
+- 👉 [Q5 – ResourceQuota & LimitRange](./q5-quotas/)
+
+---
+
