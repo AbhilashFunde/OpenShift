@@ -7,7 +7,7 @@ nav_order: 3
 ## 📄 Q1 – Configure HTPasswd Identity Provider (Official Notes)
 
 <iframe
-  src="./Q1-Configure-HTPasswd-Identity-Provider.pdf"
+  src="./Q1-Configure-HTPasswd-Identity-Provider.pdf#toolbar=0&navpanes=0&scrollbar=1"
   width="100%"
   height="900px"
   style="border:none;">
