@@ -4,7 +4,7 @@ title: Q3 – Projects & Permissions
 nav_order: 5
 ---
 
-# Question 3. Manage Projects and Permissions
+### Question 3. Manage Projects and Permissions
 
 Configure project access as follows:
 
@@ -21,7 +21,7 @@ Configure project access as follows:
 
 ---
 
-## Solution
+### Solution
 
 ### ✅ 1. Create projects
 
@@ -98,60 +98,50 @@ Deployment creation succeeds
 Projects and permissions configured successfully as per requirements.
 
 ---
+
 ### 🟨 Technical Explanation
 
-1. Projects and Namespaces
-
+### 1. Projects and Namespaces
 In OpenShift:
 
-A project is implemented as a Kubernetes namespace
-
-Creating a project automatically creates a namespace
+- A project is implemented as a Kubernetes namespace
+- Creating a project automatically creates a namespace
 
 Example:
 
-oc new-project apollo
+`oc new-project apollo`
 
+This command creates a namespace named `apollo`.
 
-This command creates a namespace named apollo.
+---
+### 2. RBAC Scope
+Roles are namespace-scoped unless they are cluster roles.
+Cluster roles apply across the entire cluster.
 
-2. RBAC Scope
+Common Roles:
+- `view` – Read-only access
+- `edit` – Modify resources (does not manage RBAC)
+- `admin` – Full control within a project
+- `cluster-admin` – Full cluster-wide access
+  
+---
+### 3. RoleBinding
+`oc adm policy add-role-to-user view natasha -n apollo`
 
-Roles are namespace-scoped unless they are cluster roles
-
-Cluster roles apply across the entire cluster
-
-Common Roles
-Role	Description
-view	Read-only access
-edit	Modify resources (does not manage RBAC)
-admin	Full control within a project
-cluster-admin	Full cluster-wide access
-3. RoleBinding
-
-Command:
-
-oc adm policy add-role-to-user view natasha -n apollo
-
-
-This command creates a RoleBinding that links:
-
-Role: view
-
-User: natasha
-
-Namespace: apollo
+This creates a RoleBinding that links:
+- Role: `view`
+- User: `natasha`
+- Namespace: `apollo`
 
 RoleBindings apply only to the specified project.
 
-4. Project Isolation
-
+---
+### 4. Project Isolation
 Each OpenShift project is isolated:
-
-Separate RBAC rules
-
-Separate resources
-
-Permissions in one project do not affect other projects
+- Separate RBAC rules
+- Separate resources
+- Permissions in one project do not affect other projects
 
 This behavior is expected and enforced by OpenShift.
+
+---
