@@ -5,9 +5,6 @@ nav_title: Q1 – HTPasswd IDP
 nav_order: 3
 ---
 
-nav_order: 3
----
-
 ### Question 1. Manage Identity Providers
 
 - Configure the OAuth to use **HTPasswd** as the identity provider.
