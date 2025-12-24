@@ -1,7 +1,6 @@
 ---
 layout: default
-title: Q1 – Configure HTPasswd Identity Provider
-nav_title: Q1 – HTPasswd IDP
+title: Q1 – HTPasswd IDP
 nav_order: 3
 ---
 
