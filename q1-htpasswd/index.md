@@ -4,34 +4,17 @@ title: Q1 – Configure HTPasswd Identity Provider
 nav_order: 3
 ---
 
-# Question 1 – Configure HTPasswd Identity Provider
+Question 1. Manage Identity Providers:
+•	Configure the Oauth to use HTPasswd as the identity provider.
+•	Secret name should be ex280-secret and Identity Provider name should be ex280-idp-secret.
+Create Users:
+•	Create user bob with password indionce
+•	Create user jobs with password catalog
+•	Create user john with password warniak
+•	Create user armstrong with password gluengue
+•	Create user natasha with password sestiver
+•	Create user alice with password thankyou
 
-## Task
-
-Configure the OpenShift cluster authentication to use an **HTPasswd identity provider**.
-
----
-
-## Requirements
-
-Create an HTPasswd file containing the following users:
-
-| Username   | Password  |
-|-----------|-----------|
-| bob       | indionce  |
-| jobs      | catalog   |
-| john      | warniak   |
-| armstrong | gluengue  |
-| natasha   | sestiver  |
-| alice     | thankyou  |
-
-Additional requirements:
-
-- Create a secret named **`ex280-secret`**
-- Store the HTPasswd file in the secret
-- Configure OAuth with:
-  - Identity Provider name: **`ex280-idp-secret`**
-- Verify that users can authenticate successfully
 
 ---
 
