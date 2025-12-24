@@ -63,8 +63,6 @@ Grant self-provisioner role only to john:
 oc adm policy add-cluster-role-to-user self-provisioner john
 ```
 
-________________________________________
-
 ### ✅ Verify john can create project
 ```bash
 oc login -u john -p warniak
@@ -105,79 +103,73 @@ Verify console login by using bob credentials
 
 ________________________________________
 
-### 🟦 EXPLANATION
-🧑‍💼 Cluster Admin (bob)
-Granting role cluster-admin gives:
-•	Full cluster control
-•	Node management
-•	User management
-•	Security controls
+## 🟨 Technical Explanation
 
-________________________________________
+### 1. Role-Based Access Control (RBAC)
 
-### 🚫 Disable Default Project Creation
-OpenShift normally allows all logged-in users to create projects.
-Removing role:
-self-provisioner from system:authenticated
-Means:
-•	Users CANNOT create projects unless explicitly allowed
+OpenShift permissions are managed using RBAC.
 
-________________________________________
+- Permissions are defined in **Roles / ClusterRoles**
+- Roles are assigned using **RoleBindings / ClusterRoleBindings**
+- Access is always evaluated as:
 
-### ✅ Allow Only john to Create Projects
-Now only john has project creation rights.
-This follows:
-Principle of Least Privilege
-
-________________________________________
-
-❌ jobs User
-jobs was NOT granted any provisioning role → remains blocked.
-
-________________________________________
-
-### 🧹 Remove kubeadmin
-kubeadmin is an emergency admin account.
-Removing it:
-•	Improves security
-•	Prevents unauthorized access
-•	Enforces identity provider-based authentication
-
-________________________________________
-
-### 🟨 TECHNICAL EXPLANATION
-1. Role-Based Access Control (RBAC)
-OpenShift permissions work as:
 Role → Bound to → User / Group
-Example:
-cluster-admin → bob
-self-provisioner → john
 
-________________________________________
+Examples:
+- `cluster-admin` → `bob`
+- `self-provisioner` → `john`
+- `cluster-reader` → `alice`
 
-2. self-provisioner Role
-This role controls:
-•	Who can create projects
-Removing from group:
-system:authenticated:oauth
-means:
-Only explicitly assigned users can create projects.
+---
 
-________________________________________
+### 2. cluster-admin Role
 
-3. kubeadmin User
-OpenShift installer creates kubeadmin once.
+The `cluster-admin` role provides:
+
+- Full cluster-wide permissions
+- Node and namespace management
+- User and security administration
+
+This role should be granted only to trusted users.
+
+---
+
+### 3. self-provisioner Role
+
+The `self-provisioner` role controls **project creation**.
+
+- By default, it is bound to the group `system:authenticated:oauth`
+- This allows all authenticated users to create projects
+
+Removing this role ensures:
+- Users **cannot** create projects by default
+- Only explicitly assigned users (e.g., `john`) can create projects
+
+This follows the **Principle of Least Privilege**.
+
+---
+
+### 4. cluster-reader Role
+
+The `cluster-reader` role provides:
+
+- Read-only access across all namespaces
+- Visibility into cluster resources
+- No permission to create or modify objects
+
+This role is suitable for audit or monitoring users.
+
+---
+
+### 5. kubeadmin User (Exam Note)
+
+- `kubeadmin` is a temporary emergency admin user
+- It is created during cluster installation
+- Access exists only while the `kubeadmin` secret is present
+
 Deleting the secret:
-kubeadmin secret → gone
-No authentication → access denied.
+- Immediately disables kubeadmin access
+- Forces authentication through configured identity providers
 
-________________________________________
-
-### ✅ FINAL STATUS
-User	Access Level
-bob	Cluster Admin
-john	Can Create Projects
-jobs	Cannot Create Projects
-alice	Cluster Reader
-kubeadmin	Deleted
+This behavior is **expected and secure**.
 
