@@ -73,6 +73,7 @@ Save & exit.
 oc get pods -n openshift-authentication
 ```
 Pods will go through Terminating → Running again.
+
 <img width="623" height="206" alt="image" src="https://github.com/user-attachments/assets/21000f72-e528-401f-8d21-9372c9ee1e98" />
 
 ### 5. Verify authentication
