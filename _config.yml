@@ -1,6 +1,7 @@
 title: DO280 OpenShift Exam Prep
 description: Hands-on DO280 OpenShift exam preparation notes
-theme: just-the-docs
+
+remote_theme: just-the-docs/just-the-docs
 
 url: https://abhilashfunde.github.io
 baseurl: /OpenShift
@@ -9,5 +10,4 @@ nav_enabled: true
 search_enabled: true
 
 color_scheme: light
-
 heading_anchors: true
