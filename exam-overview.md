@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Exam Overview & Rules
-permalink: /exam-overview/
+title: Exam Overview
+nav_order: 2
 ---
 title: DO280 / EX280 Exam Overview
 ---
