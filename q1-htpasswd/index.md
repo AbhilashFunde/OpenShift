@@ -29,10 +29,8 @@ Additional requirements:
 
 - Create a secret named **`ex280-secret`**
 - Store the HTPasswd file in the secret
-- The secret must be created in the **`openshift-config`** namespace
 - Configure OAuth with:
   - Identity Provider name: **`ex280-idp-secret`**
-  - Mapping method: **`claim`**
 - Verify that users can authenticate successfully
 
 ---
