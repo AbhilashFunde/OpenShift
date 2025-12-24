@@ -247,3 +247,35 @@ It contains:
 ### Step 1 — SSH to Workbench
 ```bash
 ssh <username>@workbench.lab.example.com
+
+Step 2 — Find kubeadmin.txt
+ls -l
+
+File contains:
+
+API URL
+
+Username
+
+Password
+
+Step 3 — Login to Cluster
+oc login -u <user> -p <password> <api-url>
+
+
+Verify:
+
+oc whoami
+oc get projects
+
+Important Tips
+
+Login once, solve everything
+
+Do NOT edit kubeadmin.txt
+
+Use home directory only for files
+
+Stay calm if login fails
+
+✔️ Once you understand this page, start with Q1
