@@ -3,7 +3,6 @@ layout: default
 title: Home
 nav_order: 1
 ---
-
 ## 📘 Getting Started
 
 Welcome to **DO280 OpenShift Exam Prep** — a hands-on, lab-focused guide to help you crack the Red Hat DO280 exam with confidence.
