@@ -96,6 +96,9 @@ oc login -u natasha -p sestiver
 ```bash
 oc login -u alice -p thankyou
 ```
+
+### ✅ 6. List users
+Login back by using cluster/admin user (ex: kubeadmin in the exam and admin in lab) 
 ```bash
 oc get users
 ```
