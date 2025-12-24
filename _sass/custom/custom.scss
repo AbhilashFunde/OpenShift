@@ -1,24 +1,48 @@
-/* 🔥 Reduce left/right empty space */
+/* ===============================
+   GLOBAL LAYOUT TUNING
+   =============================== */
+
+/* Reduce excessive left/right space */
 .page-content {
-  max-width: 1150px;   /* increase readable width */
-  padding-left: 2rem;
-  padding-right: 2rem;
+  max-width: 1180px;
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
 }
 
-/* 🎯 Slight space from top (below header) */
+/* Reduce header height (top space fix) */
+.site-header {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+/* Pull content slightly up */
 .main {
-  padding-top: 1.25rem;
+  padding-top: 0.8rem;
 }
 
-/* ✨ Premium title sizing */
+/* ===============================
+   TYPOGRAPHY (Exam-speed reading)
+   =============================== */
+
 .main-content h1 {
-  font-size: 2.1rem;
+  font-size: 2rem;
   line-height: 1.25;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.75rem;
 }
 
-/* 📚 Exam-speed reading */
+.main-content h2 {
+  margin-top: 2rem;
+}
+
 .main-content p,
 .main-content li {
   line-height: 1.75;
+}
+
+/* ===============================
+   SIDEBAR POLISH
+   =============================== */
+
+.side-bar {
+  background-color: #f9fafb;
 }
