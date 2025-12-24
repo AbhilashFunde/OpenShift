@@ -47,11 +47,13 @@ htpasswd -B -b /tmp/htpasswd armstrong gluengue
 htpasswd -B -b /tmp/htpasswd natasha sestiver
 htpasswd -B -b /tmp/htpasswd alice thankyou
 ```
-2. Create secret
+### 2. Create secret
+
 ```bash
 oc create secret generic ex280-secret --from-file=htpasswd=/tmp/htpasswd -n openshift-config
 ```
-3. Configure OAuth
+### 3. Configure OAuth
+
 ```bash
 oc edit oauth cluster
 ```
@@ -65,18 +67,21 @@ spec:
       fileData:
         name: ex280-secret
 ```
-4. Wait for authentication pods
+### 4. Wait for authentication pods
+
 ```bash
 oc get pods -n openshift-authentication
 ```
 (All pods must be Running.)
 
-5. Verify authentication
+### 5. Verify authentication
+
 ```bash
 oc login -u bob -p indionce
 ```
 ```bash
 oc get users
 ```
-Result
+### Result
+
 HTPasswd identity provider configured successfully and users can authenticate.
