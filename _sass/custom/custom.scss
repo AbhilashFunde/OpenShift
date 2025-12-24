@@ -1,9 +1,27 @@
 /* Slightly softer sidebar */
 .side-bar {
   background-color: #f9fafb;
+  width: 240px;          /* slimmer sidebar */
+}
+
+/* Shift main content accordingly */
+.main {
+  margin-left: 240px;
+}
+
+/* Improve reading width (less empty space) */
+.main-content {
+  max-width: 980px;      /* exam-speed reading width */
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 /* Better text spacing for reading */
 .main-content p {
   line-height: 1.7;
+}
+
+/* Tighten list spacing (faster scanning) */
+.main-content ul li {
+  margin-bottom: 0.4rem;
 }
