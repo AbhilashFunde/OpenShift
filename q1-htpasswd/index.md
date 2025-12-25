@@ -116,7 +116,7 @@ oc get pods -n openshift-authentication -w
 Pods will transition:
 
 ```
-Terminating → Running
+Terminating → Pending → Running (it will take 3 to 5 min so breath)
 ```
 <img width="623" height="206" alt="image" src="https://github.com/user-attachments/assets/b7ad9189-8843-4efa-b19b-b70960a51ada" />
 
