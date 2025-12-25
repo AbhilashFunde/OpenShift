@@ -30,7 +30,7 @@ Each lab is structured to help you:
 
 1. Read the **scenario carefully**
 2. Understand the **requirements and constraints**
-3. Perform the tasks using the **OpenShift CLI**
+3. Perform the tasks using the **OpenShift CLI** / **Web Console**
 4. Verify your work using the **validation steps**
 5. Fix mistakes before moving to the next lab  
 
