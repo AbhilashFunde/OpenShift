@@ -4,196 +4,236 @@ title: Q3 – Projects & Permissions
 nav_order: 5
 ---
 
-**�� Q3. Manage Projects and Permissions**
+# Q3 – Manage Projects and Permissions
 
-**Question 3. Manage Projects and Permissions**
+---
 
-Configure project access as follows:
+## Question – Manage Projects and Permissions
 
-- Create projects:
+Configure project access with the following requirements:
 
-  - **apollo**
+### Projects to Create
 
-  - **test**
+* `apollo`
+* `test`
+* `mercury`
+* `demo`
 
-  - **mercury**
+### Access Requirements
 
-  - **demo**
+* **natasha** → can **view resources only** in:
 
-<!-- -->
+  * `apollo`
+  * `test`
+* **armstrong** → must have **admin access** to:
 
-- **natasha** user can only **view resources** in:
+  * `apollo`
 
-  - apollo
+---
 
-  - test
+## Solution – Project Permissions
 
-<!-- -->
+---
 
-- **armstrong** user should have **admin access** to apollo project.
+### 1. Create Projects
 
-**�� SOLUTION**
+Ensure you are logged in as **cluster-admin** (bob):
 
-**✅ 1. Create Projects**
+```bash
+oc whoami
+```
 
-**oc whoami (Make sure the user is bob, because bob is currently the
-cluster administrator.)**
+Create the projects:
 
+```bash
 oc new-project apollo
-
 oc new-project test
-
 oc new-project mercury
-
 oc new-project demo
+```
 
+Verify:
+
+```bash
 oc get projects
+```
 
-**✅ 2. Grant VIEW access to natasha for apollo & test**
+---
 
-cc adm policy -h
+### 2. Grant VIEW Access to `natasha`
 
+Grant **read-only (view)** role in required projects:
+
+```bash
 oc adm policy add-role-to-user view natasha -n apollo
-
 oc adm policy add-role-to-user view natasha -n test
+```
 
-**✅ 3. Grant ADMIN access to armstrong for apollo**
+---
 
+### 3. Grant ADMIN Access to `armstrong`
+
+Grant **admin** role in the `apollo` project:
+
+```bash
 oc adm policy add-role-to-user admin armstrong -n apollo
+```
 
-**✅ VERIFICATION**
+---
 
-**�� Check role bindings in apollo**
+## Verification
 
-oc get rolebinding -n test -o wide \| grep -i natasha
+---
 
-oc get rolebinding -n apollo -o wide \| grep -i natasha
+### Check RoleBindings
 
-oc get rolebinding -n apollo -o wide \| grep -i armstrong
+Verify bindings in projects:
 
-<img src="43c5f7f3d7175745db91efdd09b9056f5e8ee02a.png"
-style="width:10.46875in;height:2.125in" alt="image" />
+```bash
+oc get rolebinding -n apollo | grep -i natasha
+oc get rolebinding -n test | grep -i natasha
+oc get rolebinding -n apollo | grep -i armstrong
+```
 
-**✅ Test natasha permissions (If you want)**
+---
 
+### Test `natasha` Permissions (Optional)
+
+```bash
 oc login -u natasha -p sestiver
-
 oc project apollo
-
 oc get pods
+oc delete pod <pod-name>
+```
 
-oc delete pod \<pod-name\>
+Expected behavior:
 
-Expected:
+* `oc get pods` → ✅ Allowed
+* `oc delete pod` → ❌ Forbidden
 
-- oc get pods → works
+---
 
-- oc delete → Forbidden
+### Test `armstrong` Admin Permissions (Optional)
 
-**✅ Test armstrong admin permissions (If you want)**
-
+```bash
 oc login -u armstrong -p gluengue
-
 oc project apollo
-
 oc create deployment test --image=nginx
+```
 
-Expected:
+Expected behavior:
 
-- Deployment should succeed ✔
+* Deployment creation → ✅ Successful
 
-**�� EXPLANATION**
+---
 
-**�� Role: view (natasha)**
+## Explanation
 
-Provides:
+---
 
-- Read-only access
-
-- Cannot create/edit/delete
-
-- Can list and describe resources
-
-Used for:
-
-- Auditors
-
-- Inspectors
-
-- Observers
-
-**�� Role: admin (armstrong)**
+### Role: `view` (natasha)
 
 Provides:
 
-- Full control inside project
+* Read-only access
+* Can list and describe resources
+* Cannot create, modify, or delete resources
 
-- Create/update/delete resources
+Typical use cases:
 
-- Create role bindings
+* Auditors
+* Observers
+* Support teams
 
-- Manage secrets, pods, services, routes, etc.
+---
 
-**�� Project Isolation**
+### Role: `admin` (armstrong)
 
-Each project is isolated:
+Provides:
 
-- Separate RBAC
+* Full control within the project
+* Create, update, delete resources
+* Manage secrets, services, routes, deployments
+* Create role bindings inside the project
 
-- Separate objects
+---
 
-- Role in apollo does not affect mercury or demo
+### Project Isolation
 
-**�� TECHNICAL EXPLANATION**
+Each project (namespace) is isolated:
 
-**1. Namespace = Project in OpenShift**
+* Separate RBAC rules
+* Separate resources
+* Access in one project does **not** affect others
 
-Each project maps to a namespace:
+---
 
+## Technical Notes (Exam Important)
+
+---
+
+### 1. Project = Namespace
+
+In OpenShift:
+
+```bash
 oc new-project apollo
-
-→ creates namespace: apollo
-
-**2. RBAC Scopes**
-
-|               |                     |
-|---------------|---------------------|
-| **Role**      | **Scope**           |
-|               |                     |
-| view          | Read only           |
-| admin         | Full control        |
-|               |                     |
-| edit          | Modify but not RBAC |
-|               |                     |
-| cluster-admin | Full cluster        |
-|               |                     |
-
-**3. RoleBinding**
-
-Command creates resource:
-
-oc adm policy add-role-to-user view natasha -n apollo
+```
 
 Creates:
 
-RoleBinding:
+```text
+Namespace: apollo
+```
 
-Role → view
+---
 
-User → natasha
+### 2. RBAC Scopes
 
-Namespace → apollo
+| Role          | Scope / Permissions        |
+| ------------- | -------------------------- |
+| view          | Read-only access           |
+| edit          | Modify resources (no RBAC) |
+| admin         | Full project control       |
+| cluster-admin | Full cluster control       |
 
-**✅ FINAL STATUS**
+---
 
-|             |             |               |
-|-------------|-------------|---------------|
-| **Project** | **natasha** | **armstrong** |
-|             |             |               |
-| apollo      | View        | Admin         |
-| test        | View        | No Access     |
-|             |             |               |
-| mercury     | No Access   | No Access     |
-|             |             |               |
-| demo        | No Access   | No Access     |
-|             |             |               |
+### 3. RoleBinding
+
+Command:
+
+```bash
+oc adm policy add-role-to-user view natasha -n apollo
+```
+
+Creates:
+
+* **Role:** view
+* **User:** natasha
+* **Namespace:** apollo
+
+This binding is **namespace-scoped**.
+
+---
+
+## Final Status
+
+| Project | natasha   | armstrong |
+| ------- | --------- | --------- |
+| apollo  | View      | Admin     |
+| test    | View      | No Access |
+| mercury | No Access | No Access |
+| demo    | No Access | No Access |
+
+---
+
+## Exam Tips (DO280)
+
+* `view` = read-only
+* `admin` = full project control
+* RBAC is **namespace-scoped** unless cluster roles are used
+* Always verify with:
+
+  * `oc get rolebinding`
+  * login + action test
