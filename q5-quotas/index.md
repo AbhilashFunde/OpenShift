@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Q5 – ResourceQuota & LimitRange
+title: Q5 – Quota & LimitRange
 nav_order: 6
 ---
 # Q5 – ResourceQuota & LimitRange
