@@ -95,6 +95,8 @@ oc get rolebinding -n test | grep -i natasha
 oc get rolebinding -n apollo | grep -i armstrong
 ```
 
+<img width="624" height="128" alt="image" src="https://github.com/user-attachments/assets/630168de-1f9b-48b0-a987-3505c4380ac5" />
+
 ---
 
 ### Test `natasha` Permissions (Optional)
