@@ -3,173 +3,266 @@ layout: default
 title: Q2 - Cluster RBAC
 nav_order: 4
 ---
-### Question 2. Manage Cluster Permissions
-Configure role-based access as follows:
--	**bob** user should have **cluster administrator** rights.
--	**john** user should be able to **create projects**.
--	**jobs** user should **NOT be able** to create projects.
--	**alice** user should have **cluster-reader** permissions to view all resources across the entire cluster.
--	**kubeadmin** user must not exist.
+# Q2 – Manage Cluster Permissions
 
-________________________________________
+---
 
-### 🟩 SOLUTION
-### ✅ 1. Grant Cluster Admin to bob
+## Question – Manage Cluster Permissions
+
+Configure role-based access control (RBAC) with the following requirements:
+
+* **bob** → must have **cluster administrator** rights
+* **john** → must be able to **create projects**
+* **jobs** → must **NOT** be able to create projects
+* **alice** → must have **cluster-reader** access across the cluster
+* **kubeadmin** → **must not exist**
+
+---
+
+## Solution – Cluster Permissions
+
+---
+
+### 1. Grant Cluster Admin to `bob`
+
+Verify current user:
+
 ```bash
-oc whoami 
-oc adm policy -h
+oc whoami
+```
+
+Grant cluster-admin role:
+
+```bash
 oc adm policy add-cluster-role-to-user cluster-admin bob
 ```
-### ✅ Verify bob has cluster-admin privileges
+
+#### Verify
+
 ```bash
 oc login -u bob -p indionce
 oc get nodes
 ```
-If nodes are visible → cluster-admin access is confirmed ✔
 
-________________________________________
+✔ If nodes are visible → `bob` has **cluster-admin** access.
 
-### ✅ 2. Remove project creation rights for normal users
-By default, OpenShift allows authenticated users to create projects via the self-provisioner role.
+---
+
+### 2. Disable Default Project Creation for All Users
+
+By default, OpenShift allows authenticated users to create projects via the
+**self-provisioner** role.
+
 Remove this default behavior:
+
 ```bash
 oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
 ```
-________________________________________
 
-### ✅ 3. Confirm role binding exists
-Check which object controls project creation:
+---
+
+### 3. Confirm Self-Provisioner Role Binding
+
 ```bash
-oc get clusterrolebinding | grep self
+oc get clusterrolebinding | grep self-provisioner
 ```
-This confirms that self-provisioner controls project creation permissions.
 
-________________________________________
+This confirms which binding controls project creation.
 
-### ✅ 4. Verify jobs cannot create project
+---
+
+### 4. Verify `jobs` Cannot Create Projects
+
 ```bash
 oc login -u jobs -p catalog
 oc new-project test
 ```
-Expected output:
-error: Forbidden (no permission)
-This confirms jobs cannot create projects ✔
 
-________________________________________
+Expected result:
 
-### ✅ 5. Allow john to create projects manually (project creation requires a ClusterRoleBinding)
-Grant self-provisioner role only to john:
+```
+Error from server (Forbidden)
+```
+
+✔ Confirms `jobs` **cannot** create projects.
+
+---
+
+### 5. Allow Only `john` to Create Projects
+
+Grant `self-provisioner` role **only** to `john`:
+
 ```bash
 oc adm policy add-cluster-role-to-user self-provisioner john
 ```
 
-### ✅ Verify john can create project
+#### Verify
+
 ```bash
 oc login -u john -p warniak
 oc new-project test
 ```
-If project gets created → permission is correct ✔
 
-________________________________________
+✔ If project is created → permission is correct.
 
+---
 
-### ✅ 6. Give alice user cluster-reader permissions
+### 6. Grant Cluster-Reader Role to `alice`
+
 ```bash
 oc adm policy add-cluster-role-to-user cluster-reader alice
-oc login -u alice -p thankyou
-oc new-project alicetest
 ```
-If nodes are visible and user alice is unable to create a new project, then cluster-reader access is confirmed.✔ 
 
-________________________________________
+✔ Allows read-only access to all cluster resources.
 
-### ✅ 7. Remove kubeadmin user
-Delete kubeadmin credentials:
+---
+
+### 7. Remove `kubeadmin` User
+
+Login as cluster-admin (`bob`):
+
 ```bash
-oc login -u bob -p indionce (User bob is cluster-admin now)
-os get user kubeadmin
+oc login -u bob -p indionce
+```
+
+Check kubeadmin user and secret:
+
+```bash
+oc get user kubeadmin
 oc get secret kubeadmin -n kube-system
-oc delete secrets kubeadmin -n kube-system
 ```
-### ✅ Verify kubeadmin no longer works
+
+Delete kubeadmin secret:
+
 ```bash
-os get user kubeadmin
+oc delete secret kubeadmin -n kube-system
+```
+
+#### Verify kubeadmin no longer works
+
+```bash
+oc get user kubeadmin
 oc login -u kubeadmin -p password
 ```
-Expected output:
+
+Expected result:
+
+```
 Login failed
-This confirms kubeadmin is removed ✔
-Verify console login by using bob credentials
+```
 
-________________________________________
+✔ Confirms `kubeadmin` is removed.
 
-## 🟨 Technical Explanation
+---
 
-### 1. Role-Based Access Control (RBAC)
+## Explanation
 
-OpenShift permissions are managed using RBAC.
+---
 
-- Permissions are defined in **Roles / ClusterRoles**
-- Roles are assigned using **RoleBindings / ClusterRoleBindings**
-- Access is always evaluated as:
+### Cluster Admin (`bob`)
 
+Granting `cluster-admin` provides:
+
+* Full cluster control
+* Node management
+* User and RBAC management
+* Security configuration
+
+---
+
+### Disable Default Project Creation
+
+Removing:
+
+```text
+self-provisioner from system:authenticated:oauth
+```
+
+Means:
+
+* No user can create projects **unless explicitly allowed**
+
+This improves cluster security.
+
+---
+
+### Allow Only `john` to Create Projects
+
+Granting `self-provisioner` **only to john** enforces:
+
+> **Principle of Least Privilege**
+
+---
+
+### `jobs` User
+
+* No provisioning role granted
+* Project creation remains blocked
+
+---
+
+### Remove `kubeadmin`
+
+`kubeadmin` is a temporary bootstrap user created during installation.
+
+Deleting its secret:
+
+* Removes authentication credentials
+* Prevents emergency backdoor access
+* Forces usage of configured Identity Providers
+
+---
+
+## Technical Notes (Exam Important)
+
+### RBAC Model
+
+```text
 Role → Bound to → User / Group
+```
 
 Examples:
-- `cluster-admin` → `bob`
-- `self-provisioner` → `john`
-- `cluster-reader` → `alice`
+
+* `cluster-admin` → bob
+* `self-provisioner` → john
+* `cluster-reader` → alice
 
 ---
 
-### 2. cluster-admin Role
+### self-provisioner Role
 
-The `cluster-admin` role provides:
+Controls:
 
-- Full cluster-wide permissions
-- Node and namespace management
-- User and security administration
+* Project creation permissions
 
-This role should be granted only to trusted users.
+Removing from:
 
----
+```text
+system:authenticated:oauth
+```
 
-### 3. self-provisioner Role
+Ensures:
 
-The `self-provisioner` role controls **project creation**.
-
-- By default, it is bound to the group `system:authenticated:oauth`
-- This allows all authenticated users to create projects
-
-Removing this role ensures:
-- Users **cannot** create projects by default
-- Only explicitly assigned users (e.g., `john`) can create projects
-
-This follows the **Principle of Least Privilege**.
+* Only explicitly assigned users can create projects
 
 ---
 
-### 4. cluster-reader Role
+## Final Status
 
-The `cluster-reader` role provides:
-
-- Read-only access across all namespaces
-- Visibility into cluster resources
-- No permission to create or modify objects
-
-This role is suitable for audit or monitoring users.
+| User      | Access Level               |
+| --------- | -------------------------- |
+| bob       | Cluster Admin              |
+| john      | Can Create Projects        |
+| jobs      | Cannot Create Projects     |
+| alice     | Cluster Reader (Read-only) |
+| kubeadmin | Deleted                    |
 
 ---
 
-### 5. kubeadmin User (Exam Note)
+## Exam Tips (DO280)
 
-- `kubeadmin` is a temporary emergency admin user
-- It is created during cluster installation
-- Access exists only while the `kubeadmin` secret is present
-
-Deleting the secret:
-- Immediately disables kubeadmin access
-- Forces authentication through configured identity providers
-
-This behavior is **expected and secure**.
-
+* `cluster-admin` = full control
+* `self-provisioner` = project creation
+* Remove default access for better security
+* kubeadmin removal is **commonly tested**
+* Always **verify with login + action**
