@@ -3,35 +3,44 @@ layout: default
 title: Q4 – Managing Groups
 nav_order: 5
 ---
-## Question 4. Managing Groups
-
-Configure groups and permissions as follows:
-
-- Create groups:
-  - `site-users`
-  - `guest-users`
-
-- Add users to groups:
-  - Add `john` to `guest-users`
-  - Add `jobs` and `natasha` to `site-users`
-
-- Assign permissions:
-  - Give `edit` role to `site-users` group in `test` project
-  - Give `view` role to `guest-users` group in:
-    - `demo` project
-    - `test` project
+# Q4 – Manage Groups
 
 ---
 
-## 🟩 SOLUTION
+## Question – Managing Groups
 
-### ✅ 1. Create Groups
+Configure groups and permissions as follows:
 
-Make sure the current user is `bob` (cluster administrator):
+### Groups to Create
+
+* `site-users`
+* `guest-users`
+
+### Group Membership
+
+* Add **john** to `guest-users`
+* Add **jobs** and **natasha** to `site-users`
+
+### Permissions
+
+* Grant **edit** role to `site-users` group in **test** project
+* Grant **view** role to `guest-users` group in:
+
+  * `demo`
+  * `test`
+
+---
+
+## Solution – Group Management
+
+---
+
+### 1. Create Groups
+
+Ensure you are logged in as **cluster-admin** (bob):
 
 ```bash
 oc whoami
-oc adm -h | more
 ```
 
 Create the groups:
@@ -40,168 +49,178 @@ Create the groups:
 oc adm groups new site-users
 oc adm groups new guest-users
 ```
+
 ---
 
-### ✅ 2. Add Users to Groups
+### 2. Add Users to Groups
 
-Add users to the groups:
 ```bash
-oc adm groups -h
-oc adm groups add-users site-users jobs natasha  
+oc adm groups add-users site-users jobs natasha
 oc adm groups add-users guest-users john
 ```
+
 ---
 
-### ✅ VERIFICATION (Group Creation)
+### Verify Groups
 
-Verify that groups exist:
 ```bash
 oc get groups
 ```
-<img width="620" height="202" alt="image" src="https://github.com/user-attachments/assets/e177742f-b807-41a8-847b-1a5b2aed0e4d" />
+
+✔ Confirms groups are created successfully.
 
 ---
 
-### ✅ 3. Assign Roles to Groups
+### 3. Assign Roles to Groups
 
-Grant **edit** access to `site-users` in `test` project:
+#### Grant **edit** role to `site-users` in `test` project
+
 ```bash
-oc adm policy -h
 oc adm policy add-role-to-group edit site-users -n test
 ```
-Grant **view** access to `guest-users` in `demo` and `test` projects:
+
+#### Grant **view** role to `guest-users` in `demo` and `test`
+
 ```bash
 oc adm policy add-role-to-group view guest-users -n demo
 oc adm policy add-role-to-group view guest-users -n test
 ```
+
 ---
 
-### ✅ VERIFICATION
+## Verification
 
-Check RoleBindings in projects:
+---
+
+### Check RoleBindings
+
 ```bash
-`oc get rolebinding -n test -o wide`  
-`oc get rolebinding -n demo -o wide`
+oc get rolebinding -n test -o wide
+oc get rolebinding -n demo -o wide
 ```
-Expected:
-- RoleBindings exist for `site-users` and `guest-users`
 
-<img width="623" height="128" alt="image" src="https://github.com/user-attachments/assets/3ee10968-31d6-47f3-8952-4bb2369ef594" />
+✔ RoleBindings should show group-based assignments.
 
 ---
 
-### ✅ Test Permissions (if You Want)
+### Test Permissions (Optional)
 
-Login as `john` (guest-user):
+#### Login as `john` (guest-user)
+
 ```bash
 oc login -u john -p warniak
 oc project test
 oc get pods
 oc delete pod <pod-name>
 ```
+
 Expected:
-- `get` → SUCCESS
-- `delete` → FORBIDDEN
+
+* `get pods` → ✅ Allowed
+* `delete pod` → ❌ Forbidden
 
 ---
 
-Login as `natasha` (site-user):
+#### Login as `natasha` (site-user)
+
 ```bash
-oc login -u natasha -p sestiver 
+oc login -u natasha -p sestiver
 oc project test
 oc create deployment demo --image=nginx
 ```
+
 Expected:
-- Deployment creation → SUCCESS ✔
+
+* Deployment creation → ✅ Successful
 
 ---
 
-### 🟨 TECHNICAL EXPLANATION
-
-- 👥 Group Management
-
-Groups simplify user management by:
-- Assigning permissions once to a group
-- Automatically applying them to all users in the group
+## Explanation
 
 ---
 
-- ✏️ edit Role (`site-users`)
+### Group Management
+
+Groups simplify RBAC by:
+
+* Assigning permissions **once**
+* Automatically applying permissions to **all group members**
+
+---
+
+### Role: `edit` (site-users)
 
 Permissions include:
-- Create workloads
-- Update workloads
-- Delete workloads
-- Cannot manage RBAC
+
+* Create, update, delete workloads
+* Manage pods, deployments, services
+* ❌ Cannot manage RBAC
 
 ---
 
-- 👁️ view Role (`guest-users`)
+### Role: `view` (guest-users)
 
 Permissions include:
-- Read-only access
-- Cannot modify resources
+
+* Read-only access
+* List and describe resources
+* ❌ Cannot modify resources
 
 ---
 
-- 📦 Project Scoped Permissions
+### Project-Scoped Permissions
 
-Each project has independent RBAC rules.
-- Roles in `demo` do not affect `test`
-- Roles in `test` do not affect other projects
+RBAC is **namespace-scoped**:
 
----
-### 1. Group Object (OpenShift)
-
-A **Group** is a cluster-scoped object in OpenShift.
-
-- Used to organize users
-- Does not grant permissions by itself
-- Permissions are applied through RoleBindings
-
-Groups can be listed using:
-`oc get groups`
+* Permissions in `test` do not affect `demo`, `mercury`, or other projects
 
 ---
 
-### 2. RoleBinding (Group-based)
-
-Permissions are granted using **RoleBindings**.
-
-Example:
-`oc adm policy add-role-to-group edit site-users -n test`
-
-This creates a RoleBinding that links:
-- Role → `edit`
-- Group → `site-users`
-- Namespace → `test`
+## Technical Notes (Exam Important)
 
 ---
 
-### 3. Permission Inheritance
+### Group Object
 
-Users inherit permissions from groups automatically.
+Groups are OpenShift objects that store:
 
-Flow:
-Role → Group → User
-
-Example:
-- `natasha` inherits `edit` permissions via `site-users`
+* Group name
+* List of users
 
 ---
 
-### 4. Namespace Enforcement
+### Group-Based RoleBinding
 
-RBAC is enforced per project:
-- Permissions in `demo` do not affect `test`
-- Same group can have different roles in different projects
+Command:
+
+```bash
+oc adm policy add-role-to-group edit site-users -n test
+```
+
+Creates a RoleBinding with:
+
+* **Role:** edit
+* **Group:** site-users
+* **Namespace:** test
 
 ---
 
-## ✅ FINAL STATUS
+## Final Status
 
-| Group        | Users               | Permissions              |
-|-------------|--------------------|--------------------------|
-| site-users  | jobs, natasha      | edit on test             |
-| guest-users | john               | view on demo & test      |
+| Group       | Users         | Permissions               |
+| ----------- | ------------- | ------------------------- |
+| site-users  | jobs, natasha | edit on `test`            |
+| guest-users | john          | view on `demo` and `test` |
 
+---
+
+## Exam Tips (DO280)
+
+* Groups simplify RBAC management
+* Assign roles to **groups**, not individual users (best practice)
+* `edit` ≠ RBAC control
+* `view` = read-only
+* Always verify using:
+
+  * `oc get groups`
+  * `oc get rolebinding`
