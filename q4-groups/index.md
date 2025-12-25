@@ -67,6 +67,8 @@ oc adm groups add-users guest-users john
 oc get groups
 ```
 
+<img width="620" height="202" alt="image" src="https://github.com/user-attachments/assets/60d8b317-0dd6-4eff-9bf6-6274eaacdb32" />
+
 ✔ Confirms groups are created successfully.
 
 ---
@@ -98,6 +100,8 @@ oc adm policy add-role-to-group view guest-users -n test
 oc get rolebinding -n test -o wide
 oc get rolebinding -n demo -o wide
 ```
+
+<img width="623" height="128" alt="image" src="https://github.com/user-attachments/assets/c237b53e-4e28-48e6-b3cf-2eb94d0fe2a4" />
 
 ✔ RoleBindings should show group-based assignments.
 
