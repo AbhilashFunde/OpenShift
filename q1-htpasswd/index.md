@@ -117,10 +117,8 @@ Pods will transition:
 
 ```
 Terminating → Running
-
-<img width="623" height="206" alt="image" src="https://github.com/user-attachments/assets/e37280c0-90e2-433d-a429-2092d8323553" />
-
 ```
+<img width="623" height="206" alt="image" src="https://github.com/user-attachments/assets/b7ad9189-8843-4efa-b19b-b70960a51ada" />
 
 This is **expected behavior**.
 
