@@ -60,6 +60,7 @@ oc create quota quota-project \
 ```bash
 oc describe resourcequotas
 ```
+
 <img width="625" height="206" alt="image" src="https://github.com/user-attachments/assets/f048812c-eb16-459a-9a7d-365e5b651fa6" />
 
 ---
@@ -181,6 +182,8 @@ oc create -f limits.yaml
 oc get limitranges
 oc describe limitranges darpa-limit
 ```
+
+<img width="624" height="219" alt="image" src="https://github.com/user-attachments/assets/d1000102-d4c0-4247-a1fd-c23dcf4aed1a" />
 
 ---
 
