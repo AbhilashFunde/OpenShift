@@ -7,7 +7,7 @@ nav_order: 6
 
 ---
 
-## Part A – ResourceQuota (Project: `rocky`)
+## Part A – ResourceQuota
 
 ### Question
 
@@ -60,6 +60,7 @@ oc create quota quota-project \
 ```bash
 oc describe resourcequotas
 ```
+<img width="625" height="206" alt="image" src="https://github.com/user-attachments/assets/f048812c-eb16-459a-9a7d-365e5b651fa6" />
 
 ---
 
@@ -91,7 +92,7 @@ Once limits are exceeded:
 
 ---
 
-## Part B – LimitRange (Project: `darpa`)
+## Part B – LimitRange
 
 ### Question
 
