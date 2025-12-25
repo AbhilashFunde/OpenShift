@@ -117,6 +117,9 @@ Pods will transition:
 
 ```
 Terminating → Running
+
+<img width="623" height="206" alt="image" src="https://github.com/user-attachments/assets/e37280c0-90e2-433d-a429-2092d8323553" />
+
 ```
 
 This is **expected behavior**.
@@ -146,6 +149,7 @@ Log back in as cluster admin
 ```bash
 oc get users
 ```
+<img width="623" height="130" alt="image" src="https://github.com/user-attachments/assets/46735e7a-1379-40db-8782-5f2f98bfed83" />
 
 ---
 
