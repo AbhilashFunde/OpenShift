@@ -4,144 +4,196 @@ title: Q3 – Projects & Permissions
 nav_order: 5
 ---
 
-### Question 3. Manage Projects and Permissions
+**�� Q3. Manage Projects and Permissions**
+
+**Question 3. Manage Projects and Permissions**
 
 Configure project access as follows:
 
-- Create the following projects:
-  - `apollo`
-  - `test`
-  - `mercury`
-  - `demo`
-- User **natasha** must have **view-only** access to:
-  - `apollo`
-  - `test`
-- User **armstrong** must have **admin** access to:
-  - `apollo`
+- Create projects:
 
----
+  - **apollo**
 
-### Solution
+  - **test**
 
-### ✅ 1. Create projects
+  - **mercury**
 
-Make sure you are logged in as **bob** (cluster administrator):
+  - **demo**
 
-```bash
-oc whoami
-```
-Create the projects:
-```bash
+<!-- -->
+
+- **natasha** user can only **view resources** in:
+
+  - apollo
+
+  - test
+
+<!-- -->
+
+- **armstrong** user should have **admin access** to apollo project.
+
+**�� SOLUTION**
+
+**✅ 1. Create Projects**
+
+**oc whoami (Make sure the user is bob, because bob is currently the
+cluster administrator.)**
+
 oc new-project apollo
+
 oc new-project test
+
 oc new-project mercury
+
 oc new-project demo
-```
-Verify:
 
-```bash
 oc get projects
-```
----
 
-### ✅ 2. Grant view access to natasha (apollo & test)
-```bash
-oc adm policy -h|more
+**✅ 2. Grant VIEW access to natasha for apollo & test**
+
+cc adm policy -h
+
 oc adm policy add-role-to-user view natasha -n apollo
+
 oc adm policy add-role-to-user view natasha -n test
-```
----
 
-### ✅ 3. Grant admin access to armstrong (apollo)
-```bash
+**✅ 3. Grant ADMIN access to armstrong for apollo**
+
 oc adm policy add-role-to-user admin armstrong -n apollo
-```
-Verification
-Check role bindings:
 
-```bash
-oc get rolebinding -n test -o wide | grep -i natasha
-oc get rolebinding -n apollo -o wide | grep -i natasha
-oc get rolebinding -n apollo -o wide | grep -i armstrong
-```
-<img width="624" height="128" alt="image" src="https://github.com/user-attachments/assets/13e4b013-8e01-443f-bdda-f6a95eb03f6c" />
+**✅ VERIFICATION**
 
-(If You Want) Test natasha permissions
-```bash
+**�� Check role bindings in apollo**
+
+oc get rolebinding -n test -o wide \| grep -i natasha
+
+oc get rolebinding -n apollo -o wide \| grep -i natasha
+
+oc get rolebinding -n apollo -o wide \| grep -i armstrong
+
+<img src="43c5f7f3d7175745db91efdd09b9056f5e8ee02a.png"
+style="width:10.46875in;height:2.125in" alt="image" />
+
+**✅ Test natasha permissions (If you want)**
+
 oc login -u natasha -p sestiver
+
 oc project apollo
-oc new-app httpd
+
 oc get pods
-```
-Attempt to delete a pod:
-```bash
-oc delete pod <pod-name>
-```
-Expected result:
 
-oc get pods → allowed
-oc delete pod → Forbidden
+oc delete pod \<pod-name\>
 
-(If You Want) Test armstrong admin permissions
+Expected:
 
-```bash
+- oc get pods → works
+
+- oc delete → Forbidden
+
+**✅ Test armstrong admin permissions (If you want)**
+
 oc login -u armstrong -p gluengue
+
 oc project apollo
+
 oc create deployment test --image=nginx
-```
-Expected result:
 
-Deployment creation succeeds
+Expected:
 
-### Result
+- Deployment should succeed ✔
 
-Projects and permissions configured successfully as per requirements.
+**�� EXPLANATION**
 
----
+**�� Role: view (natasha)**
 
-### 🟨 Technical Explanation
+Provides:
 
-### 1. Projects and Namespaces
-In OpenShift:
+- Read-only access
 
-- A project is implemented as a Kubernetes namespace
-- Creating a project automatically creates a namespace
+- Cannot create/edit/delete
 
-Example:
+- Can list and describe resources
 
-`oc new-project apollo`
+Used for:
 
-This command creates a namespace named `apollo`.
+- Auditors
 
----
-### 2. RBAC Scope
-Roles are namespace-scoped unless they are cluster roles.
-Cluster roles apply across the entire cluster.
+- Inspectors
 
-Common Roles:
-- `view` – Read-only access
-- `edit` – Modify resources (does not manage RBAC)
-- `admin` – Full control within a project
-- `cluster-admin` – Full cluster-wide access
-  
----
-### 3. RoleBinding
-`oc adm policy add-role-to-user view natasha -n apollo`
+- Observers
 
-This creates a RoleBinding that links:
-- Role: `view`
-- User: `natasha`
-- Namespace: `apollo`
+**�� Role: admin (armstrong)**
 
-RoleBindings apply only to the specified project.
+Provides:
 
----
-### 4. Project Isolation
-Each OpenShift project is isolated:
-- Separate RBAC rules
-- Separate resources
-- Permissions in one project do not affect other projects
+- Full control inside project
 
-This behavior is expected and enforced by OpenShift.
+- Create/update/delete resources
 
----
+- Create role bindings
+
+- Manage secrets, pods, services, routes, etc.
+
+**�� Project Isolation**
+
+Each project is isolated:
+
+- Separate RBAC
+
+- Separate objects
+
+- Role in apollo does not affect mercury or demo
+
+**�� TECHNICAL EXPLANATION**
+
+**1. Namespace = Project in OpenShift**
+
+Each project maps to a namespace:
+
+oc new-project apollo
+
+→ creates namespace: apollo
+
+**2. RBAC Scopes**
+
+|               |                     |
+|---------------|---------------------|
+| **Role**      | **Scope**           |
+|               |                     |
+| view          | Read only           |
+| admin         | Full control        |
+|               |                     |
+| edit          | Modify but not RBAC |
+|               |                     |
+| cluster-admin | Full cluster        |
+|               |                     |
+
+**3. RoleBinding**
+
+Command creates resource:
+
+oc adm policy add-role-to-user view natasha -n apollo
+
+Creates:
+
+RoleBinding:
+
+Role → view
+
+User → natasha
+
+Namespace → apollo
+
+**✅ FINAL STATUS**
+
+|             |             |               |
+|-------------|-------------|---------------|
+| **Project** | **natasha** | **armstrong** |
+|             |             |               |
+| apollo      | View        | Admin         |
+| test        | View        | No Access     |
+|             |             |               |
+| mercury     | No Access   | No Access     |
+|             |             |               |
+| demo        | No Access   | No Access     |
+|             |             |               |
