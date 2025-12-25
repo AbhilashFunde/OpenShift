@@ -348,7 +348,7 @@ oc get projects
 
 ---
 
-### Step 5 — Open Console (See URL In Instruction Page )
+### Step 5 — Open Console (See URL From Instruction Page )
 
 ```bash
 oc whoami --show-console -- Will Not Work
