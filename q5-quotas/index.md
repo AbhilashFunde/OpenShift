@@ -1,3 +1,8 @@
+---
+layout: default
+title: Q5 – ResourceQuota & LimitRange
+nav_order: 6
+---
 # Q5 – ResourceQuota & LimitRange
 
 ---
